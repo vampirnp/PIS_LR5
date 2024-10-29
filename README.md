@@ -72,28 +72,31 @@
 
 | Атрибут, уровень 1 | Уровень 2 | Тип     | Название атрибута       | Формирование на бэкенде                                                                 | Обязательность |
 |--------------------|------------|---------|-------------------------|-----------------------------------------------------------------------------------------|----------------|
-| productInfo        |            | object  | Информация о продукте   |                                                                                         | +              |
+| productId          |            | object  | индетификатор продукта  | select tbl_pruduct_id                                                                   |                |
+|                    |            |         |                         | from tbl_product                                                                        |  +             |
+|                    |            |         |                         | where id  = <entityId>                                                                  |                |
+|--------------------|------------|---------|-------------------------|-----------------------------------------------------------------------------------------|----------------|
 | product_name       |            | string  | Имя продукта            |                                                                                         | +              |
 | article            |            | string  | Артикул                 |                                                                                         | +              |
 | rating             |            | float   | Рейтинг                 |                                                                                         | +              |
 | price              |            | integer | Цена                    |                                                                                         | +              |
-| clientInfo         |            | object  | Информация клиента       |                                                                                         | +              |
+| clientInfo         |            | object  | Информация клиента      |                                                                                         | +              |
 | firstName          |            | string  | Имя                     |                                                                                         | +              |
 | lastName           |            | string  | Фамилия                 |                                                                                         | +              |
 | middleName         |            | string  | Отчество                |                                                                                         | -              |
-| contactInfo        |            | object  | Контактная информация    |                                                                                         | +              |
-| email              |            | string  | Электронная почта        |                                                                                         | +              |
+| contactInfo        |            | object  | Контактная информация   |                                                                                         | +              |
+| email              |            | string  | Электронная почта       |                                                                                         | +              |
 | phone              |            | string  | Телефон                 |                                                                                         | +              |
 | deliveryOfGoods    |            | object  | Доставка товаров        |                                                                                         | +              |
 | inStore            |            | boolean | В магазине              |                                                                                         | +              |
-| deliveryToAddress  |            | object  | Доставка по адресу       |                                                                                         | +              |
+| deliveryToAddress  |            | object  | Доставка по адресу      |                                                                                         | +              |
 | address            |            | string  | Адрес                   |                                                                                         | +              |
 | price              |            | integer | Цена                    |                                                                                         | +              |
-| paymentMethod      |            | object  | Способ оплаты            |                                                                                         | +              |
-| SBP                |            | boolean | Система быстрых платежей |                                                                                         | +              |
-| SBERPay            |            | boolean | СберПэй                  |                                                                                         | +              |
-| card               |            | boolean | Оплата картой            |                                                                                         | +              |
-| cashOnDelivery     |            | boolean | Оплата наличными         |                                                                                         | +              |
+| paymentMethod      |            | object  | Способ оплаты           |                                                                                         | +              |
+| SBP                |            | boolean | Система быстрых платежей|                                                                                         | +              |
+| SBERPay            |            | boolean | СберПэй                 |                                                                                         | +              |
+| card               |            | boolean | Оплата картой           |                                                                                         | +              |
+| cashOnDelivery     |            | boolean | Оплата наличными        |                                                                                         | +              |
 
 ### REST-запросы
 
