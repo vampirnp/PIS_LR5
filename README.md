@@ -74,11 +74,10 @@
 |--------------------|------------|---------|-------------------------|-----------------------------------------------------------------------------------------|----------------|
 | productId          |            | object  | индетификатор продукта  | select tbl_pruduct_id                                                                   |                |
 |                    |            |         |                         | from tbl_product                                                                        |  +    +        |
-|                    |            |         |                         | where id  = <entityId>                                                                  |                |
+|                    |            |         |                         | where id =<entityId>                                                                    |                |
 | product_name       |            | string  | Имя продукта            | select tbl_product_name                                                                 |                |
 |                    |            |         |                         | from tbl_product                                                                        |       +        |
-|                    |            |         |                         | where product_name = <str>                                                              |                |
-|                    |            |         |                         |                                                                                         |                |
+|                    |            |         |                         | where product_name=<str>                                                                |                |
 | article            |            | string  | Артикул                 |                                                                                         | +              |
 | price              |            | integer | Цена                    |                                                                                         | +              |
 | clientInfo         |            | object  | Информация клиента      |                                                                                         | +              |
