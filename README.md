@@ -4,19 +4,28 @@
 
 | Параметр       | Тип параметра | Обязательность | Описание                                |
 |----------------|---------------|----------------|-----------------------------------------|
-| entityId       | uuid          | +/-            | Идентификатор сущности                  |
+| userId         | uuid          | +              | Идентификатор сущности                  |
+| productId      | uuid          | +              | Идентификатор продукта                  |
 
 ## 2. Авторизация
 
-**Клиент:**
-- Данную сущность может просмотреть только автор сущности.
+a. По бизнесу
+Доступ к функции добавления товара в корзину
+Просмотр и управление корзиной доступно только владельцу 
+Доступ к информации о остатке товара предоставляется всем пользователям
 
-## 3. Техническая реализация
+b. Техническая реализация
+-- Проверка прав доступа к корзине
+SELECT id FROM tbl_User
+WHERE user_id = {current_user} 
+AND id = {orderId}
 
-**Проверка прав доступа:**
-- Для данного `entityId` должно быть равно текущему авторизованному ID пользователя в системе.
+-- Проверка статуса рейса
+SELECT status FROM tbl_product 
+WHERE id = {product_Id} 
+AND status = 'ACTIVE'
 
-## 4. Передача данных при инициализации
+## 3. Передача данных при инициализации
 
 ```json
 {
@@ -66,35 +75,34 @@
 }
 ```
 
-## 5. Таблица атрибутов
+## 4. Таблица атрибутов
 
-| Атрибут, уровень 1 | Уровень 2 | Тип     | Название атрибута       | Формирование на бэкенде                                                                 | Обязательность |
-|--------------------|------------|---------|-------------------------|-----------------------------------------------------------------------------------------|----------------|
-| productId          |            | object  | индетификатор продукта  | select tbl_pruduct_id                                                                   |                |
-|                    |            |         |                         | from tbl_product                                                                        |       +        |
-|                    |            |         |                         | where id =<entityId>                                                                    |                |
-| product_name       |            | string  | Имя продукта            | select tbl_product_name                                                                 |                |
-|                    |            |         |                         | from tbl_product                                                                        |       +        |
-|                    |            |         |                         | where product_name=<str>                                                                |                |
-| article            |            | string  | Артикул                 |                                                                                         | +              |
-| price              |            | integer | Цена                    |                                                                                         | +              |
-| clientInfo         |            | object  | Информация клиента      |                                                                                         | +              |
-| firstName          |            | string  | Имя                     |                                                                                         | +              |
-| lastName           |            | string  | Фамилия                 |                                                                                         | +              |
-| middleName         |            | string  | Отчество                |                                                                                         | -              |
-| contactInfo        |            | object  | Контактная информация   |                                                                                         | +              |
-| email              |            | string  | Электронная почта       |                                                                                         | +              |
-| phone              |            | string  | Телефон                 |                                                                                         | +              |
-| deliveryOfGoods    |            | object  | Доставка товаров        |                                                                                         | +              |
-| inStore            |            | boolean | В магазине              |                                                                                         | +              |
-| deliveryToAddress  |            | object  | Доставка по адресу      |                                                                                         | +              |
-| address            |            | string  | Адрес                   |                                                                                         | +              |
-| price              |            | integer | Цена                    |                                                                                         | +              |
-| paymentMethod      |            | object  | Способ оплаты           |                                                                                         | +              |
-| SBP                |            | boolean | Система быстрых платежей|                                                                                         | +              |
-| SBERPay            |            | boolean | СберПэй                 |                                                                                         | +              |
-| card               |            | boolean | Оплата картой           |                                                                                         | +              |
-| cashOnDelivery     |            | boolean | Оплата наличными        |                                                                                         | +              |
+| Атрибут, уровень 1 | Уровень 2 | Тип     | Название атрибута       | Формирование на бэкенде                                                                | Обязательность |
+|--------------------|------------|---------|-------------------------|---------------------------------------------------------------------------------------|----------------|
+| productId          |            | object  | индетификатор продукта  | select tbl_pruduct_id from tbl_product where id =<product_Id>                         | +              |
+| product_name       |            | string  | Имя продукта            | select tbl_product_name from tbl_product where product_name=<str>                     | +              |
+| article            |            | integer | Артикул                 | SELECT article FROM tbl_product WHERE product_id = <product_id>                       | +              |
+| price              |            | integer | Цена                    | SELECT price FROM tbl_product WHERE product_id = <product_id>	                        | +              |
+| clientInfo         |            | object  | Информация клиента      |                                                                                       | +              |
+| firstName          |            | string  | Имя                     | SELECT first_name FROM tbl_users WHERE user_id = <user_id>                            | +              |
+| lastName           |            | string  | Фамилия                 | SELECT last_name FROM tbl_users WHERE user_id = <user_id>                             | +              |
+| middleName         |            | string  | Отчество                | SELECT middle_name FROM tbl_users WHERE user_id = <user_id>                           | -              |
+| contactInfo        |            | object  | Контактная информация   | -                                                                                     | +              |
+| email              |            | string  | Электронная почта       | SELECT email FROM tbl_users WHERE user_id = <user_id>                                 | +              |
+| phone              |            | string  | Телефон                 | SELECT phone FROM tbl_users WHERE user_id = <user_id>                                 | +              |
+| deliveryOfGoods    |            | object  | Доставка товаров        |                                                                                       | +              |
+| inStore            |            | boolean | В магазине              | SELECT in_store FROM tbl_delivery WHERE order_id = <order_id>                         | +              |
+| deliveryToAddress  |            | object  | Доставка по адресу      | -                                                                                     | +              |
+| address            |            | string  | Адрес                   | SELECT address FROM tbl_delivery WHERE order_id = <order_id>                          | +              |
+| price              |            | integer | Цена                    | SELECT delivery_price FROM tbl_delivery WHERE order_id = <order_id>                   | +              |
+| paymentMethod      |            | object  | Способ оплаты           | -                                                                                     | +              |
+| SBP                |            | boolean | Система быстрых платежей| SELECT SBP FROM tbl_payment_methods WHERE order_id = <order_id>                       | +              |
+| SBERPay            |            | boolean | СберПэй                 | SELECT SBERPay FROM tbl_payment_methods WHERE order_id = <order_id>                   | +              |
+| card               |            | boolean | Оплата картой           | SELECT card FROM tbl_payment_methods WHERE order_id = <order_id>	                    | +              |
+| cashOnDelivery     |            | boolean | Оплата наличными        | SELECT cash_on_delivery FROM tbl_payment_methods WHERE order_id = <order_id>          | +              |
+
+
+
 
 ## 6.  REST-запросы
 
