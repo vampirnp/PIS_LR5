@@ -1,4 +1,4 @@
-## PIS_LR_5
+# PIS_LR_5
 
 ### Техническое задание на разработку. Бэкенд
 
@@ -192,5 +192,5 @@ AND status = 'ACTIVE'
   }
 }
 ```
-MADE BY DMITRIY "neyron activation"
+
 
